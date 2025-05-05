@@ -1,0 +1,8 @@
+export const COLORS = {
+  SHARK: "#000000de",
+  DODGER_BLUE: "#475fff",
+  KEPPEL: "#008800",
+  PEACH_SCHNAPPS: "#FFF0E7",
+  COPPERFIELD: "#d51f11",
+  WHITE: "#FFFFFF",
+};

@@ -1,50 +1,22 @@
-# Welcome to your Expo app 👋
+# Trully Magic in React Native project example
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## How to use it
 
-## Get started
+1. Create a webhook from [webhook.site](https://webhook.site) (Make sure you
+   edit the webhook to enable CORS)
+2. Go to client [Dashboard](https://sandboxapp.trully.ai) and copy your API KEY.
+3. Clone this repository
+4. Open Visual Studio Code
+5. Open <i>Config.tsx<i>. Replace the corresponding values of the CONFIG object
+6. Run app
 
-1. Install dependencies
+## ⚠️ Important - Webhook token
 
-   ```bash
-   npm install
-   ```
+The webhook token is the text you see after the <i>https://webhook.site/</i>.
+I.e if your url is <i>https://webhook.site/123-456</i> then your token would be
+<i>123-456</i>
 
-2. Start the app
+## ⚠️ Important - Repeat test
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+To repeat the tests after a successful try make sure you change the USER_ID
+value
