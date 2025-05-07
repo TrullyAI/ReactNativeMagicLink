@@ -4,15 +4,20 @@
     "slug": "react-native-webview",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
     "scheme": "reactnativewebview",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.reactnativewebview",
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera",
-        "NSLocationWhenInUseUsageDescription": "This app uses your location"
+        "NSLocationWhenInUseUsageDescription": "This app uses your location",
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": ["reactnativewebview"]
+          }
+        ]
       }
     },
     "android": {
@@ -20,6 +25,18 @@
       "permissions": [
         "android.permission.CAMERA",
         "android.permission.ACCESS_COARSE_LOCATION"
+      ],
+      "package": "com.reactnativewebview",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "reactnativewebview"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
       ]
     },
     "web": {

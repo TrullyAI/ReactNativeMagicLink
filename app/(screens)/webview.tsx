@@ -1,19 +1,19 @@
 import Loader from "@/components/Loader";
-import { COLORS } from "@/constants/Colors";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { Camera } from "expo-camera";
+import * as ExpoLinking from "expo-linking";
 import * as Location from "expo-location";
 import { useLocalSearchParams } from "expo-router";
 import { navigate } from "expo-router/build/global-state/routing";
 import React, { useEffect, useState } from "react";
-import { Modal, Pressable, StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { WebView } from "react-native-webview";
 
 export default function WebViewScreen() {
   const { url } = useLocalSearchParams();
   const [isReady, setIsReady] = useState(false);
-  const [modalVisible, setModalVisible] = useState(true);
 
+  // In order to use the WebView, we need to request camera and location permissions
+  // and check if the user has granted them. If not, the process will not work.
   useEffect(() => {
     (async () => {
       // Solicitar permisos de cámara
@@ -35,47 +35,41 @@ export default function WebViewScreen() {
     })();
   }, []);
 
-  const handleClose = async () => {
-    navigate("/result");
+  // We use Deep Linking to handle the redirect from the WebView
+  // and navigate to the result screen.
+  useEffect(() => {
+    const subscription = ExpoLinking.addEventListener("url", ({ url }) => {
+      handleDeepLink(url);
+    });
+
+    return () => subscription.remove();
+  }, []);
+
+  const handleDeepLink = (url: string) => {
+    const route = url.replace(/.*?:\/\//g, "");
+
+    // Check if the URL contains the correct redirect URL
+    if (route.startsWith("result")) navigate("/result");
   };
 
   if (!isReady) return <Loader />;
 
   return (
-    <Modal
-      visible={modalVisible}
-      animationType="slide"
-      onRequestClose={() => setModalVisible(false)}
-    >
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <Pressable onPress={handleClose} style={styles.closeButton}>
-          <AntDesign name="close" size={24} color={COLORS.SHARK} />
-        </Pressable>
-
-        <WebView
-          source={{
-            uri: url as string,
-          }}
-          allowsInlineMediaPlayback={true}
-          mediaPlaybackRequiresUserAction={false}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          startInLoadingState={true}
-          mixedContentMode="compatibility"
-          androidHardwareAccelerationDisabled={false}
-          geolocationEnabled={true}
-          mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
-        />
-      </View>
-    </Modal>
+    <View style={{ flex: 1, justifyContent: "center" }}>
+      <WebView
+        source={{
+          uri: url as string,
+        }}
+        allowsInlineMediaPlayback={true}
+        mediaPlaybackRequiresUserAction={false}
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        startInLoadingState={true}
+        mixedContentMode="compatibility"
+        androidHardwareAccelerationDisabled={false}
+        geolocationEnabled={true}
+        mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
+      />
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  closeButton: {
-    padding: 16,
-  },
-  webview: {
-    flex: 1,
-  },
-});

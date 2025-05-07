@@ -45,6 +45,7 @@ export default function HomeScreen() {
         external_id: CONFIG.USER_ID,
         metadata: {
           webhook_url: CONFIG.WEBHOOK_URL,
+          redirect_url: CONFIG.REDIRECT_URL, // Necessary for Deep Linking
         },
       }),
     });
