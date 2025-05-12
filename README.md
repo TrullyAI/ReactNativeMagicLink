@@ -2,20 +2,12 @@
 
 ## How to use it
 
-1. Create a webhook from [webhook.site](https://webhook.site) (Make sure you
-   edit the webhook to enable CORS)
-2. Go to client [Dashboard](https://sandboxapp.trully.ai) and copy your API KEY.
-3. Clone this repository
-4. Open Visual Studio Code
-5. Open <i>Config.tsx<i>. Replace the corresponding values of the CONFIG object
-6. Run app using <b>npm run android</b> or <b>npm run ios</b>. If you're a
+1. Go to client [Dashboard](https://sandboxapp.trully.ai) and copy your API KEY.
+2. Clone this repository
+3. Open Visual Studio Code
+4. Open <i>Config.tsx<i>. Replace the corresponding values of the CONFIG object
+5. Run app using <b>npm run android</b> or <b>npm run ios</b>. If you're a
    Mac/Linux user make sure to add sudo before npm command
-
-## ⚠️ Important - Webhook token
-
-The webhook token is the text you see after the <i>https://webhook.site/</i>.
-I.e if your url is <i>https://webhook.site/123-456</i> then your token would be
-<i>123-456</i>
 
 ## ⚠️ Important - Repeat test
 
@@ -35,7 +27,14 @@ the corresponding permissions to the Manifest and InfoPlist files using the
 #### Getting Results
 
 The Magic Link will send the data to be analyzed by the Decision Maker. Once it
-got the result, it will send it to the Webhook. In order to know WHEN we have
-available the user data on the Webhook we're using the Deep Linking technique.
-For this, it's important to properly configure the <b>App.js</b> file. Make sure
-you read and understand it's configuration so you can apply it to your project.
+got the result, it will be available through the <i>/v2/history/request</i>
+endpoint. In order to know WHEN to retrieve the user data we're using the Deep
+Linking technique. For this, it's important to properly configure the
+<b>App.js</b> file. Make sure you read and understand it's configuration so you
+can apply it to your project.
+
+##### /v2/history/request
+
+To get the data for each process you should add the <i>?magic_link_token</i>
+query param. You'll find the token in the json response from the Magic Link
+creation.

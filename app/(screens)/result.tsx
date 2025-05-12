@@ -1,18 +1,26 @@
 import Loader from "@/components/Loader";
 import { COLORS } from "@/constants/Colors";
 import { CONFIG } from "@/constants/Config";
+import { useLocalSearchParams } from "expo-router";
 import { navigate } from "expo-router/build/global-state/routing";
 import { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { Result } from "../types/Result";
 
 export default function ResultScreen() {
+  const { token } = useLocalSearchParams();
   const [result, setResult] = useState<Result | null>(null);
 
   useEffect(() => {
     (async () => {
       const res = await fetch(
-        `https://webhook.site/token/${CONFIG.WEBHOOK_TOKEN}/requests?sorting=newest`
+        `https://sandbox.trully.ai/v2/history/request?magic_link_token=${token}`,
+        {
+          headers: {
+            "content-type": "application/json",
+            "x-api-key": CONFIG.API_KEY,
+          },
+        }
       );
 
       if (!res.ok) {
@@ -21,30 +29,23 @@ export default function ResultScreen() {
       }
 
       const { data } = await res.json();
-      const webhookData = JSON.parse(data[0].content);
-
-      if (webhookData.user_id !== CONFIG.USER_ID) {
-        goBack("Debes completar el proceso");
-        return;
-      }
-
-      setResult(() => {
-        const {
-          image: selfie,
+      const {
+        images: {
+          selfie,
           document_image: documentFront,
-          document_back: documentBack,
-          label,
-        } = webhookData;
+          document_image_back: documentBack,
+        },
+        response: { label },
+      } = data;
 
-        return {
-          selfie: `data:image/png;base64,${selfie}`,
-          documentFront: `data:image/png;base64,${documentFront}`,
-          documentBack: `data:image/png;base64,${documentBack}`,
-          label,
-        };
+      setResult({
+        selfie: `data:image/png;base64,${selfie}`,
+        documentFront: `data:image/png;base64,${documentFront}`,
+        documentBack: `data:image/png;base64,${documentBack}`,
+        label,
       });
     })();
-  }, []);
+  }, [token]);
 
   const getColor = (label: string) => {
     if (label === "Potential Threat") return COLORS.COPPERFIELD;

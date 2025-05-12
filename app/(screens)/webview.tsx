@@ -4,23 +4,23 @@ import * as ExpoLinking from "expo-linking";
 import * as Location from "expo-location";
 import { useLocalSearchParams } from "expo-router";
 import { navigate } from "expo-router/build/global-state/routing";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
 import { WebView } from "react-native-webview";
 
 export default function WebViewScreen() {
-  const { url } = useLocalSearchParams();
+  const { url, token } = useLocalSearchParams();
   const [isReady, setIsReady] = useState(false);
 
   // In order to use the WebView, we need to request camera and location permissions
   // and check if the user has granted them. If not, the process will not work.
   useEffect(() => {
     (async () => {
-      // Solicitar permisos de cámara
+      // Ask for camera permissions
       const { status: cameraStatus } =
         await Camera.requestCameraPermissionsAsync();
 
-      // Solicitar permisos de ubicación
+      // Ask for location permissions
       const { status: locationStatus } =
         await Location.requestForegroundPermissionsAsync();
 
@@ -35,6 +35,17 @@ export default function WebViewScreen() {
     })();
   }, []);
 
+  const handleDeepLink = useCallback(
+    (url: string) => {
+      const route = url.replace(/.*?:\/\//g, "");
+
+      // Check if the URL contains the correct redirect URL
+      if (route.startsWith("result"))
+        navigate({ pathname: "/result", params: { token } });
+    },
+    [token]
+  );
+
   // We use Deep Linking to handle the redirect from the WebView
   // and navigate to the result screen.
   useEffect(() => {
@@ -43,14 +54,7 @@ export default function WebViewScreen() {
     });
 
     return () => subscription.remove();
-  }, []);
-
-  const handleDeepLink = (url: string) => {
-    const route = url.replace(/.*?:\/\//g, "");
-
-    // Check if the URL contains the correct redirect URL
-    if (route.startsWith("result")) navigate("/result");
-  };
+  }, [handleDeepLink]);
 
   if (!isReady) return <Loader />;
 

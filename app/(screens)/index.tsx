@@ -17,18 +17,21 @@ export default function HomeScreen() {
 
   const handlePress = async () => {
     setLoading(true);
-    const magicLinkUrl = await getUrl();
+    const res = await getUrl();
 
-    if (!magicLinkUrl) {
+    if (!res) {
       console.error("Error al crear el magic link");
       setLoading(false);
       return;
     }
 
+    const { magic_link_url, token } = res;
+
     navigate({
       pathname: "/webview",
       params: {
-        url: magicLinkUrl,
+        url: magic_link_url,
+        token,
       },
     });
   };
@@ -44,7 +47,6 @@ export default function HomeScreen() {
         one_time_only: true,
         external_id: CONFIG.USER_ID,
         metadata: {
-          webhook_url: CONFIG.WEBHOOK_URL,
           redirect_url: CONFIG.REDIRECT_URL, // Necessary for Deep Linking
         },
       }),
@@ -55,10 +57,10 @@ export default function HomeScreen() {
     const data = await res.json();
 
     const {
-      data: { magic_link_url },
+      data: { magic_link_url, token },
     } = data;
 
-    return magic_link_url;
+    return { magic_link_url, token };
   };
 
   if (loading) return <Loader />;
