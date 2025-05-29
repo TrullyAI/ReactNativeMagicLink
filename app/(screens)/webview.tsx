@@ -64,14 +64,17 @@ export default function WebViewScreen() {
         source={{
           uri: url as string,
         }}
-        allowsInlineMediaPlayback={true}
-        mediaPlaybackRequiresUserAction={false}
         javaScriptEnabled={true}
         domStorageEnabled={true}
         startInLoadingState={true}
-        mixedContentMode="compatibility"
-        androidHardwareAccelerationDisabled={false}
+        // Allows the Webview to capture location
         geolocationEnabled={true}
+        // Avoid iPhone to open fullscreen videos
+        allowsInlineMediaPlayback={true}
+        mediaPlaybackRequiresUserAction={false}
+        // WebView will allow a secure origin to load content from any other origin
+        mixedContentMode="compatibility"
+        // Avoids duplicate permissions prompting if the App already have Camera and Location permission
         mediaCapturePermissionGrantType="grantIfSameHostElsePrompt"
       />
     </View>
