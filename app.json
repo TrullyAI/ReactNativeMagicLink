@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "react-native-webview",
+    "slug": "react-native-webview",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "reactnativewebview",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.reactnativewebview",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera",
+        "NSLocationWhenInUseUsageDescription": "This app uses your location",
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": ["reactnativewebview"]
+          }
+        ]
+      }
+    },
+    "android": {
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_COARSE_LOCATION"
+      ],
+      "package": "com.reactnativewebview",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "reactnativewebview"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": ["expo-router", ["expo-splash-screen"]],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
