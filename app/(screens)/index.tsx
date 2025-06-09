@@ -37,14 +37,13 @@ export default function HomeScreen() {
   };
 
   const getUrl = async () => {
-    const res = await fetch("https://sandbox.trully.ai/v1/magic-link", {
+    const res = await fetch("https://sandbox.trully.ai/v2/magic-link", {
       method: "POST",
       headers: {
         "content-type": "application/json",
         "x-api-key": CONFIG.API_KEY,
       },
       body: JSON.stringify({
-        one_time_only: true,
         external_id: CONFIG.USER_ID,
         metadata: {
           redirect_url: CONFIG.REDIRECT_URL, // Necessary for Deep Linking
@@ -68,7 +67,7 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Pressable style={styles.button} onPress={handlePress}>
-        <Text style={styles.buttonText}>Crear Magic Link</Text>
+        <Text style={styles.buttonText}>Crear Magic Link v2</Text>
       </Pressable>
     </View>
   );
